@@ -49,6 +49,7 @@ def send_logs_to_cloudwatch(container, group_name, stream_name, credentials, reg
     for line in container.logs(stream=True):
         # save logs e.g. {'timestamp': 1681296784612, 'message': '20'}
         log_events.append({'timestamp': int(time.time() * 1000), 'message': line.decode('utf-8').strip()})
+        print(log_events)
 
         # send every 1,000 logs to CloudWatch
         if len(log_events) == 1000:
@@ -85,5 +86,5 @@ if __name__ == '__main__':
     container = create_container(args.docker_image, args.bash_command)
 
     # send logs to AWS CloudWatch
-    send_logs_to_cloudwatch(container, args.aws_cloudwatch_group, args.aws_cloudwatch_stream,args.aws_access_key_id,
-                            args.aws_secret_access_key, args.aws_region)
+    send_logs_to_cloudwatch(container, args.aws_cloudwatch_group, args.aws_cloudwatch_stream, (args.aws_access_key_id,
+                            args.aws_secret_access_key), args.aws_region)
