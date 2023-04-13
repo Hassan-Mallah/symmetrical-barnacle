@@ -12,7 +12,8 @@ def create_container(image, command):
         command=command,
         detach=True,
         stdout=True,
-        stderr=True
+        stderr=True,
+        environment={"PYTHONUNBUFFERED": "1"}  # immediately show print values in the logs
     )
     return container
 
