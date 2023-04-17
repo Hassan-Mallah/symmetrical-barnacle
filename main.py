@@ -20,7 +20,6 @@ def create_container(image, command):
 
 def send_logs_to_cloudwatch(container, group_name, stream_name, credentials, region):
     """ read container logs and send them aws cloud watch """
-    print("send_logs_to_cloudwatch")
 
     # create aws session
     session = boto3.Session(
@@ -50,7 +49,6 @@ def send_logs_to_cloudwatch(container, group_name, stream_name, credentials, reg
     for line in container.logs(stream=True):
         # save logs e.g. {'timestamp': 1681296784612, 'message': '20'}
         log_events.append({'timestamp': int(time.time() * 1000), 'message': line.decode('utf-8').strip()})
-        print(log_events)
 
         # send every 1,000 logs to CloudWatch
         if len(log_events) == 1000:
